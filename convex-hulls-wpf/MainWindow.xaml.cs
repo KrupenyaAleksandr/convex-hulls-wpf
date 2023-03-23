@@ -36,6 +36,7 @@ namespace convex_hulls_wpf
             
             foreach (string line in input.Split(';'))
             {
+                if (line == "") break;
                 nums = line.Split(',');
                 points.Add(new point(Convert.ToDouble(nums[0]), Convert.ToDouble(nums[1])));
             }

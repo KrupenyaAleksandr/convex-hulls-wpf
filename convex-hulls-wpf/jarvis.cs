@@ -11,6 +11,32 @@ namespace convex_hulls_wpf
         public List<point> build_hull_jarvis(List<point> points)
         {
             List<point> hull = new List<point>();
+            point p0 = new point(points[0]);
+            foreach (point p in points)
+            {
+                if (p.x < p0.x || (p.x == p0.x && p.y < p0.y)) p0 = p;
+            }
+            hull.Add(p0);
+            //points.Remove(points[0]);
+            while (true)
+            {
+                point tmp = new point(-999, -999);
+                foreach (point p in points) {
+                    point _tmp = new point();
+                    _tmp = p - p0;
+                    _tmp = tmp ^ (tmp - p0);
+                    if (((p - p0) ^ (tmp - p0)) > 0)
+                    {
+                        tmp = p;
+                    }
+                }
+                if (tmp == p0) break;
+                else
+                {
+                    p0 = tmp;
+                    hull.Add(tmp);
+                }
+            }
             return hull;
         }
     }
