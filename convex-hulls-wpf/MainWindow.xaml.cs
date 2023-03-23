@@ -18,11 +18,29 @@ namespace convex_hulls_wpf
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
+    /// 
+
     public partial class MainWindow : Window
     {
+        List<point> points = new List<point>();
+        jarvis _jarvis = new jarvis();
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void Build_Click(object sender, RoutedEventArgs e)
+        {
+            string input = Input.GetLineText(0);
+            string[] nums = new string[2];
+            
+            foreach (string line in input.Split(';'))
+            {
+                nums = line.Split(',');
+                points.Add(new point(Convert.ToDouble(nums[0]), Convert.ToDouble(nums[1])));
+            }
+
+            _jarvis.build_hull_jarvis(points);
         }
     }
 }
