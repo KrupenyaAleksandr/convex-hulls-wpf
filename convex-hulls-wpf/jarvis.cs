@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,58 +9,55 @@ namespace convex_hulls_wpf
 {
     public class jarvis
     {
-        public List<point> build_hull_jarvis(List<point> points)
+        private double rotate(point a, point b, point c) // функция для определения с какой стороны находится точка C относительно отрезка AB
         {
-            List<point> hull = new List<point>();
-            point p0 = new point(points[0]);
-            foreach (point p in points)
+            return (b.x - a.x) * (c.y - b.y) - (b.y - a.y) * (c.x - b.x); // > 0, левая сторона; < 0, правая сторона
+        }
+
+        public List<point> jarvismarch(List<point> points)
+        {
+            List<int> P = new List<int>();
+            for (int i = 0; i < points.Count; ++i) // создаём список номеров, равный количеству точек
             {
-                if (p.x < p0.x || (p.x == p0.x && p.y < p0.y)) p0 = p;
+                P.Add(i);
             }
-            hull.Add(p0);
-            //points.Remove(points[0]);
+            point p0 = new point(); // берём первую попавшуюся точку
+            p0 = points[0];
+            for (int i = 0; i < points.Count; ++i)
+            {
+                if (points[P[i]].x < points[P[0]].x) // ищем самую левую точку по иксу
+                {
+                    point tmp = new point();
+                    tmp = points[P[i]];
+                    points[P[i]] = points[P[0]]; // меняем местами точки в списке точек, чтобы не попасть сразу на начальную потом
+                    points[P[0]] = tmp;
+                }
+            }
+            List<point> hull = new List<point>(); // список точек, которые будут входить в выпуклую оболочку
+            hull.Add(points[P[0]]); // сразу добавим первую точку
+            points.Remove(points[P[0]]); // переместим первую точку, входящую в оболочку в конец списка точек, чтобы потом,
+            points.Add(hull[0]); //  в самом конце наткнутся на неё и завершить алгоритм
             while (true)
             {
-                point tmp = new point(-999, -999);
-                foreach (point p in points) {
-                    point _tmp = new point();
-                    _tmp = p - p0;
-                    _tmp = tmp ^ (tmp - p0);
-                    if (((p - p0) ^ (tmp - p0)) > 0)
-                    {
-                        tmp = p;
+                int right = 0;
+                for (int i = 0; i < points.Count; ++i)
+                {
+                    if (rotate(hull[hull.Count - 1], points[P[right]], points[P[i]]) < 0) // если точка находится справа от отрезка, который
+                    {                                                                    //  получается от точки hull[hull.count -1] до points[p[right]] выбираем её
+                        right = i;
                     }
                 }
-                if (tmp == p0) break;
+                if (points[P[right]] == hull[0]) //если наткнулись на самую первую точку, значит прошли вокруг оболочки, выходим из цикла
+                {
+                    break;
+                }
                 else
                 {
-                    p0 = tmp;
-                    hull.Add(tmp);
+                    hull.Add(points[P[right]]); // добавляем точку, которая оказалась правее нашего отрезка AB
+                    points.Remove(points[P[right]]);
                 }
             }
             return hull;
         }
     }
 }
-
-/*r p0 = points[0];
-for (r p : points)
-    if (p.x < p0.x || (p.x == p0.x && p.y < p0.y))
-        p0 = p;
-vector<r> hull = { p0 };
-while (true)
-{
-    r t = p0; // кандидат на следующую точку
-    for (r p : points)
-        // лучше никакие полярные углы не считать
-        if ((p - p0) ^ (t - p0) > 0)
-            t = p;
-    if (t == p0)
-        continue;
-    else
-    {
-        p0 = t;
-        hull.push_back(t);
-    }
-}
-return hull;*/

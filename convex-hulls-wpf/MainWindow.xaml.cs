@@ -41,7 +41,7 @@ namespace convex_hulls_wpf
                 points.Add(new point(Convert.ToDouble(nums[0]), Convert.ToDouble(nums[1])));
             }
 
-            _jarvis.build_hull_jarvis(points);
+            _jarvis.jarvismarch(points);
         }
     }
 }
