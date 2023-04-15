@@ -25,36 +25,36 @@ namespace convex_hulls_wpf
             p0 = points[0];
             for (int i = 0; i < points.Count; ++i)
             {
-                if (points[P[i]].x < points[P[0]].x) // ищем самую левую точку по иксу
+                if (points[i].x < points[0].x) // ищем самую левую точку по иксу
                 {
                     point tmp = new point();
-                    tmp = points[P[i]];
-                    points[P[i]] = points[P[0]]; // меняем местами точки в списке точек, чтобы не попасть сразу на начальную потом
-                    points[P[0]] = tmp;
+                    tmp = points[i];
+                    points[i] = points[0]; // меняем местами точки в списке точек, чтобы не попасть сразу на начальную потом
+                    points[0] = tmp;
                 }
             }
             List<point> hull = new List<point>(); // список точек, которые будут входить в выпуклую оболочку
-            hull.Add(points[P[0]]); // сразу добавим первую точку
-            points.Remove(points[P[0]]); // переместим первую точку, входящую в оболочку в конец списка точек, чтобы потом,
+            hull.Add(points[0]); // сразу добавим первую точку
+            points.Remove(points[0]); // переместим первую точку, входящую в оболочку в конец списка точек, чтобы потом,
             points.Add(hull[0]); //  в самом конце наткнутся на неё и завершить алгоритм
             while (true)
             {
                 int right = 0;
                 for (int i = 0; i < points.Count; ++i)
                 {
-                    if (rotate(hull[hull.Count - 1], points[P[right]], points[P[i]]) < 0) // если точка находится справа от отрезка, который
+                    if (rotate(hull[hull.Count - 1], points[right], points[i]) < 0) // если точка находится справа от отрезка, который
                     {                                                                    //  получается от точки hull[hull.count -1] до points[p[right]] выбираем её
                         right = i;
                     }
                 }
-                if (points[P[right]] == hull[0]) //если наткнулись на самую первую точку, значит прошли вокруг оболочки, выходим из цикла
+                if (points[right] == hull[0]) //если наткнулись на самую первую точку, значит прошли вокруг оболочки, выходим из цикла
                 {
                     break;
                 }
                 else
                 {
-                    hull.Add(points[P[right]]); // добавляем точку, которая оказалась правее нашего отрезка AB
-                    points.Remove(points[P[right]]);
+                    hull.Add(points[right]); // добавляем точку, которая оказалась правее нашего отрезка AB
+                    points.Remove(points[right]);
                 }
             }
             return hull;
