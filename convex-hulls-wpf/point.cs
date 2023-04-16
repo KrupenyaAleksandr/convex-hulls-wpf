@@ -4,6 +4,10 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace convex_hulls_wpf
 {
@@ -63,6 +67,20 @@ namespace convex_hulls_wpf
         public static bool operator !=(point a, point b)
         {
             return (a.x != b.x) && (a.y != b.y);
+        }
+
+        public void Draw_Point(Canvas canvas)
+        {
+            Ellipse ellipes = new Ellipse()
+            {
+                Height = 14,
+                Width = 14,
+                VerticalAlignment = VerticalAlignment.Bottom, // не работает
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Fill = Brushes.Red,
+                Margin = new Thickness(75 + this.x * 30 - 7, 525 - this.y * 30 - 7, 0, 0),
+            };
+            canvas.Children.Add(ellipes);
         }
     }
 }

@@ -5,14 +5,35 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:convex_hulls_wpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="750" Width="1100">
+        Title="MainWindow"
+        Height="750" 
+        Width="1100"
+        ResizeMode="NoResize" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Window_Loaded">
     <Grid>
-        <TextBox x:Name="Input" HorizontalAlignment="Left" Margin="30,39,0,0" TextWrapping="NoWrap" Text="" VerticalAlignment="Top" Width="120"/>
-        <Button x:Name="Build" Content="Построить" HorizontalAlignment="Left" Margin="748,503,0,0" VerticalAlignment="Top" Click="Build_Click"/>
+        <TextBox x:Name="Input" 
+                 HorizontalAlignment="Left" 
+                 Margin="80,35,0,0" 
+                 TextWrapping="NoWrap" 
+                 Text="" 
+                 VerticalAlignment="Top" 
+                 Width="120"/>
+        <Button x:Name="Build" 
+                Content="Построить" 
+                HorizontalAlignment="Left" 
+                Margin="380,35,0,0" 
+                VerticalAlignment="Top" 
+                Click="Build_Click"/>
+        <Button x:Name="DrawPoints"
+                Content="Добавить точки"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Margin="250,35,0,0" Click="Draw_Click"
+                
+                />
         <Canvas x:Name="Background"
-            Width="{Binding ActualWidth, ElementName=MainCanvas}"
-            Height="{Binding ActualHeight, ElementName=MainCanvas}"
-            SizeChanged="UpdateBackPattern"/>
+            Width="1000"
+            Height="600"
+            Margin="0,30,0,0"/>
         <Canvas x:Name="MainCanvas"/>
     </Grid>
 </Window>
