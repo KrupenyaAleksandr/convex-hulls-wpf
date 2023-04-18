@@ -39,12 +39,18 @@ namespace convex_hulls_wpf
         private void Build_Click(object sender, RoutedEventArgs e)
         {
             if (points.Count <= 0) { Console.WriteLine("1"); return; }
-            _jarvis.jarvismarch(points);
+            points = _jarvis.jarvismarch(points);
+            _painter.Draw_Hull(points, Background);
         }
 
         private void Draw_Click(object sender, RoutedEventArgs e)
         {
-            if (points.Count > 0 ) points.Clear(); 
+            if (points.Count > 0)
+            {
+                Background.Children.Clear();
+                _painter.BackPattern(Background);
+                points.Clear();
+            }
             string input = Input.GetLineText(0);
             string[] tmp_nums = new string[2];
             double[] nums = new double[2];

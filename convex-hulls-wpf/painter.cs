@@ -80,6 +80,33 @@ namespace convex_hulls_wpf
             }
         }
 
+        internal void Draw_Hull(List <point> points, Canvas canvas)
+        {
+            Line line;
+            for (int i = 0; i < points.Count - 1; ++i) {
+                line = new Line()
+                {
+                    X1 = 75 + points[i].x * 30,
+                    Y1 = 525 - points[i].y * 30,
+                    X2 = 75 + points[i + 1].x * 30,
+                    Y2 = 525 - points[i + 1].y * 30,
+                    Stroke = Brushes.Blue,
+                    StrokeThickness = 1
+                };
+                canvas.Children.Add(line);
+            }
+            line = new Line()
+            {
+                X1 = 75 + points[points.Count - 1].x * 30,
+                Y1 = 525 - points[points.Count - 1].y * 30,
+                X2 = 75 + points[0].x * 30,
+                Y2 = 525 - points[0].y * 30,
+                Stroke = Brushes.Blue,
+                StrokeThickness = 1
+            };
+            canvas.Children.Add(line);
+        }
+
         internal void AddLineToBackground(double x1, double y1, double x2, double y2, Canvas Background)
         {
             Line line = new Line()
