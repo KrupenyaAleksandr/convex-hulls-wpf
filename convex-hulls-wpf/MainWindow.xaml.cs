@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,10 +25,11 @@ namespace convex_hulls_wpf
     {
         List<point> points = new List<point>();
         jarvis _jarvis = new jarvis();
+        painter _painter = new painter();
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdateBackPattern();
+            _painter.BackPattern(Background);
         }
         public MainWindow()
         {
@@ -36,81 +38,53 @@ namespace convex_hulls_wpf
 
         private void Build_Click(object sender, RoutedEventArgs e)
         {
+            if (points.Count <= 0) { Console.WriteLine("1"); return; }
             _jarvis.jarvismarch(points);
         }
 
-        void UpdateBackPattern()
+        private void Draw_Click(object sender, RoutedEventArgs e)
         {
-            double w = Background.ActualWidth;
-            double h = Background.ActualHeight;
+            if (points.Count > 0 ) points.Clear(); 
+            string input = Input.GetLineText(0);
+            string[] tmp_nums = new string[2];
+            double[] nums = new double[2];
 
-            Background.Children.Clear();
-            for (int x = 15; x < w; x += 30)
-                AddLineToBackground(x, 0, x, h);
-            for (int y = 15; y < h; y += 30)
-                AddLineToBackground(0, y, w, y);
-            Line tmp = new Line()
+            NumberFormatInfo _numberformat = new NumberFormatInfo() // формат для обработки двоичных чисел с точкой в качестве разделителя 
             {
-                X1 = 0,
-                Y1 = 525,
-                X2 = 1000,
-                Y2 = 525,
-                Stroke = Brushes.Black,
-                StrokeThickness = 1,
+                NumberDecimalSeparator = ".",
             };
-            tmp.SetValue(RenderOptions.EdgeModeProperty, EdgeMode.Aliased);
-            Background.Children.Add(tmp);
-            tmp = new Line()
-            {
-                X1 = 75,
-                Y1 = 600,
-                X2 = 75,
-                Y2 = 0,
-                Stroke = Brushes.Black,
-                StrokeThickness = 1,
-            };
-            tmp.SetValue(RenderOptions.EdgeModeProperty, EdgeMode.Aliased);
-            Background.Children.Add(tmp);
 
-            //for ()
-        }
-
-        void AddLineToBackground(double x1, double y1, double x2, double y2)
-        {
-            Line line = new Line()
+            foreach (string line in input.Split(';'))
             {
-                X1 = x1,
-                Y1 = y1,
-                X2 = x2,
-                Y2 = y2,
-                Stroke = Brushes.LightGray,
-                StrokeThickness = 1,
-                SnapsToDevicePixels = true
-            };
-            line.SetValue(RenderOptions.EdgeModeProperty, EdgeMode.Aliased);
-            Background.Children.Add(line);
+                if (line == "") break;
+                tmp_nums = line.Split(',');
+                try
+                {
+                    nums[0] = double.Parse(tmp_nums[0], _numberformat);
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+                try
+                {
+                    nums[1] = double.Parse(tmp_nums[1], _numberformat);
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+                points.Add(new point(nums[0], nums[1]));
+            }
+
+            for (int i = 0; i < points.Count; ++i) 
+                points[i].Draw_Point(Background);
         }
 
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Point point = e.GetPosition(this);
             Console.WriteLine("X: {0}, Y: {1}", point.X, point.Y);
-        }
-
-        private void Draw_Click(object sender, RoutedEventArgs e)
-        {
-            string input = Input.GetLineText(0);
-            string[] nums = new string[2];
-
-            foreach (string line in input.Split(';'))
-            {
-                if (line == "") break;
-                nums = line.Split(',');
-                points.Add(new point(Convert.ToDouble(nums[0]), Convert.ToDouble(nums[1])));
-            }
-
-            for (int i = 0; i < points.Count; ++i) 
-                points[i].Draw_Point(Background);
         }
     }
 }
