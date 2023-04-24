@@ -5,35 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:convex_hulls_wpf"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Name="Win"
+        Title="Convex hull"
         Height="750" 
         Width="1100"
-        ResizeMode="NoResize" MouseLeftButtonDown="Window_MouseLeftButtonDown" Loaded="Window_Loaded">
-    <Grid>
-        <TextBox x:Name="Input" 
-                 HorizontalAlignment="Left" 
-                 Margin="80,35,0,0" 
-                 TextWrapping="NoWrap" 
-                 Text="" 
-                 VerticalAlignment="Top" 
-                 Width="120"/>
-        <Button x:Name="Build" 
-                Content="Построить" 
-                HorizontalAlignment="Left" 
-                Margin="380,35,0,0" 
-                VerticalAlignment="Top" 
-                Click="Build_Click"/>
-        <Button x:Name="DrawPoints"
-                Content="Добавить точки"
-                HorizontalAlignment="Left"
-                VerticalAlignment="Top"
-                Margin="250,35,0,0" Click="Draw_Click"
-                
-                />
+        ResizeMode="NoResize" Loaded="Window_Loaded">
+    <Grid x:Name="MainGrid">
         <Canvas x:Name="Background"
-            Width="1000"
-            Height="600"
-            Margin="0,30,0,0"/>
+        Width="1000"
+        Height="600"
+        Margin="0,30,0,0"/>
         <Canvas x:Name="MainCanvas"/>
     </Grid>
 </Window>

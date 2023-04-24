@@ -16,11 +16,6 @@ namespace convex_hulls_wpf
 
         public List<point> jarvismarch(List<point> points)
         {
-            List<int> P = new List<int>();
-            for (int i = 0; i < points.Count; ++i) // создаём список номеров, равный количеству точек
-            {
-                P.Add(i);
-            }
             point p0 = new point(); // берём первую попавшуюся точку
             p0 = points[0];
             for (int i = 0; i < points.Count; ++i)

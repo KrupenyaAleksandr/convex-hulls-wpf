@@ -69,18 +69,5 @@ namespace convex_hulls_wpf
             return (a.x != b.x) && (a.y != b.y);
         }
 
-        public void Draw_Point(Canvas canvas)
-        {
-            Ellipse ellipes = new Ellipse()
-            {
-                Height = 14,
-                Width = 14,
-                VerticalAlignment = VerticalAlignment.Bottom, // не работает
-                HorizontalAlignment = HorizontalAlignment.Left,
-                Fill = Brushes.Red,
-                Margin = new Thickness(75 + this.x * 30 - 7, 525 - this.y * 30 - 7, 0, 0),
-            };
-            canvas.Children.Add(ellipes);
-        }
     }
 }
