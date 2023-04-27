@@ -249,8 +249,8 @@ namespace convex_hulls_wpf
         private void Build_Click(object sender, RoutedEventArgs e)
         {
             if (points.Count <= 0) return;
-            jarvis _jarvis = new jarvis();
-            points = _jarvis.jarvismarch(points);
+            bypass _bypass = new bypass();
+            points = _bypass.jarvismarch(points);
             _grid.Children.Remove(Build);
             _grid.Children.Remove(Draw_points);
             Draw_Hull(points);
