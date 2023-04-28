@@ -59,7 +59,7 @@ namespace convex_hulls_wpf
             Content = "Построить",
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Top,
-            Margin = new Thickness(380, 35, 0, 0),
+            Margin = new Thickness(480, 35, 0, 0),
         };
 
         Button Draw_points = new Button()
@@ -67,7 +67,7 @@ namespace convex_hulls_wpf
             Content = "Добавить точки",
             HorizontalAlignment = HorizontalAlignment.Left,
             VerticalAlignment = VerticalAlignment.Top,
-            Margin = new Thickness(250, 35, 0, 0),
+            Margin = new Thickness(350, 35, 0, 0),
         };
 
         Button Forward = new Button()
@@ -77,6 +77,21 @@ namespace convex_hulls_wpf
             VerticalAlignment = VerticalAlignment.Top,
             Margin = new Thickness(390, 35, 0, 0),
         };
+
+        ComboBox Options = new ComboBox()
+        {
+            ItemsSource = new string[]
+            {
+                "Jarvis",
+                "Graham"
+            },
+            SelectedItem = "Jarvis",
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+            HorizontalContentAlignment = HorizontalAlignment.Center,
+            Margin = new Thickness(250, 35, 0, 0),
+        };
+        
 
         public painter(Grid grid, Canvas canvas) {
             _grid = grid;
@@ -93,6 +108,7 @@ namespace convex_hulls_wpf
             Forward.Click += Forward_Click;
             _grid.Children.Add(Output);
             _grid.Children.Add(Answer);
+            _grid.Children.Add(Options);
             BackPattern();
         }
 
@@ -250,9 +266,11 @@ namespace convex_hulls_wpf
         {
             if (points.Count <= 0) return;
             bypass _bypass = new bypass();
-            points = _bypass.jarvismarch(points);
+            if ((string)Options.SelectedItem == "Jarvis") points = _bypass.jarvismarch(points);
+            else points = _bypass.grahammarch(points);
             _grid.Children.Remove(Build);
             _grid.Children.Remove(Draw_points);
+            _grid.Children.Remove(Options);
             Draw_Hull(points);
         }
 
@@ -275,6 +293,7 @@ namespace convex_hulls_wpf
                 _grid.Children.Remove(Forward);
                 _grid.Children.Add(Build);
                 _grid.Children.Add(Draw_points);
+                _grid.Children.Add(Options);
                 Output.Text = "";
                 for (int i = 0; i < points.Count; ++i)
                 {

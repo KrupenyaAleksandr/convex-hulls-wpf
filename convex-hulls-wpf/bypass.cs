@@ -75,30 +75,30 @@ namespace convex_hulls_wpf
                     points[0] = tmp;
                 }
             }
-            for (int i = 1; i < points.Count; ++i) // сортировка точек, сверхну вниз 
+            for (int i = 2; i < points.Count; ++i) // сортировка вставками, точки располагаются сверхну вниз 
             {
-                int j = i;
-                while (j > 1 && (rotate(points[0], points[j - 1], points[j]) < 0))
-                {
-                    point tmp = new point();
-                    tmp = points[j];
-                    points[j] = points[j - 1];
-                    points[j - 1] = tmp;
+                int j = i; 
+                while (j > 1 && (rotate(points[0], points[j - 1], points[j]) < 0)) // пока не дошли до начала списка или пока точка оказывается справа от отрезка
+                {                                  // нам надо упорядочить список, мы строим отрезки от поинт[нулевая] до точки поинт[ЖИТАЯ - 1]
+                    point tmp = new point();       // так как все точки должны быть снизу вверх и мы строим отрезок от гарантированно самой левой точке на плоскости
+                    tmp = points[j];               // то получается, что если поинтс[житая], то есть текущая точка в форе "забежала вперёд списка" и оказалась правее чем поинт[ЖИТАЯ - 1] которая должна быть
+                    points[j] = points[j - 1];     // ниже неё, или правее относительно отрезка от поинт[0], значит нам надо поменять их местами (если я забуду и будет тяжело понять просто надо наклонить плоскость вправо)
+                    points[j - 1] = tmp;           
                     j--;
                 }
             }
-            List<point> hull = new List<point>
+            List<point> hull = new List<point> // добавляем в список две точки, которые гарантированно входят в МВО 
                     {
                         points[0],
                         points[1]
                     };
-            for (int i = 1; i < points.Count; ++i) // обрезаем углы
+            for (int i = 2; i < points.Count; ++i) // обрезаем углы
             {
-                while (rotate(hull[hull.Count - 2], hull[hull.Count - 1], points[i]) < 0)
-                {
+                while (rotate(hull[hull.Count - 2], hull[hull.Count - 1], points[i]) < 0) // если поинт[итая] находится правее отрезка, то удаляем последнюю точку из списка точек которые в МВО до тех пор, 
+                {                                                                         
                     hull.RemoveAt(hull.Count - 1);
-                }
-                hull.Add(points[i]);
+                }                                                                    // пока точка итая перестанет быть правее отрезка и после этого добавляем в МВО поинт[итую] точку
+                hull.Add(points[i]);                            
             }
             stopwatch.Stop();
             Console.WriteLine(stopwatch.ElapsedTicks);
@@ -106,3 +106,12 @@ namespace convex_hulls_wpf
         }
     }
 }
+
+/*while (j > 1 && (rotate(points[0], points[j - 1], points[j]) < 0))
+{
+    point tmp = new point();
+    tmp = points[j];
+    points[j] = points[j - 1];
+    points[j - 1] = tmp;
+    j--;
+}*/
