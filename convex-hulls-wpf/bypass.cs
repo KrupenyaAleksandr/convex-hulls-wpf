@@ -16,11 +16,7 @@ namespace convex_hulls_wpf
 
         public List<point> jarvismarch(List<point> points)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            point p0 = new point(); // берём первую попавшуюся точку
-            p0 = points[0];
-            for (int i = 0; i < points.Count; ++i)
+            for (int i = 1; i < points.Count; ++i)
             {
                 if (points[i].x < points[0].x) // ищем самую левую точку по иксу
                 {
@@ -54,17 +50,11 @@ namespace convex_hulls_wpf
                     points.Remove(points[right]);
                 }
             }
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedTicks);
             return hull;
         }
 
         public List<point> grahammarch(List<point> points)
         {
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-            point p0 = new point(); // берём первую попавшуюся точку
-            p0 = points[0];
             for (int i = 1; i < points.Count; ++i)
             {
                 if (points[i].x < points[0].x) // ищем самую левую точку по иксу
@@ -98,20 +88,9 @@ namespace convex_hulls_wpf
                 {                                                                         
                     hull.RemoveAt(hull.Count - 1);
                 }                                                                    // пока точка итая перестанет быть правее отрезка и после этого добавляем в МВО поинт[итую] точку
-                hull.Add(points[i]);                            
+                hull.Add(points[i]);
             }
-            stopwatch.Stop();
-            Console.WriteLine(stopwatch.ElapsedTicks);
             return hull;
         }
     }
 }
-
-/*while (j > 1 && (rotate(points[0], points[j - 1], points[j]) < 0))
-{
-    point tmp = new point();
-    tmp = points[j];
-    points[j] = points[j - 1];
-    points[j - 1] = tmp;
-    j--;
-}*/
