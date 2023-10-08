@@ -126,7 +126,7 @@ namespace convex_hulls_wpf
                 AddLineToBackground(x, 0, x, h);
             for (int y = 15; y < h; y += 30)
                 AddLineToBackground(0, y, w, y);
-            Line tmp_line = new Line() // осевая линия X
+            Line tmp_line = new Line()
             {
                 X1 = 0,
                 Y1 = 525,
@@ -137,7 +137,7 @@ namespace convex_hulls_wpf
             };
             tmp_line.SetValue(RenderOptions.EdgeModeProperty, EdgeMode.Aliased);
             _canvas.Children.Add(tmp_line);
-            tmp_line = new Line() // осевая линия Y
+            tmp_line = new Line()
             {
                 X1 = 75,
                 Y1 = 600,
@@ -149,7 +149,7 @@ namespace convex_hulls_wpf
             tmp_line.SetValue(RenderOptions.EdgeModeProperty, EdgeMode.Aliased);
             _canvas.Children.Add(tmp_line);
 
-            for (int x = 15; x < w; x += 60) // подпись ось X
+            for (int x = 15; x < w; x += 60)
             {
                 tmp_label = new Label()
                 {
@@ -162,7 +162,7 @@ namespace convex_hulls_wpf
             }
 
             segmentation = 16;
-            for (int y = 52; y < h; y += 60) // подпись ось Y
+            for (int y = 52; y < h; y += 60)
             {
                 if (segmentation == 0)
                 {
@@ -194,7 +194,7 @@ namespace convex_hulls_wpf
             {
                 Height = 14,
                 Width = 14,
-                VerticalAlignment = VerticalAlignment.Bottom, // не работает
+                VerticalAlignment = VerticalAlignment.Bottom,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Fill = Brushes.Red,
                 Margin = new Thickness(75 + point.x * 30 - 7, 525 - point.y * 30 - 7, 0, 0),
@@ -230,7 +230,7 @@ namespace convex_hulls_wpf
             string[] tmp_nums = new string[2];
             double[] nums = new double[2];
 
-            NumberFormatInfo _numberformat = new NumberFormatInfo() // формат для обработки двоичных чисел с точкой в качестве разделителя 
+            NumberFormatInfo _numberformat = new NumberFormatInfo()
             {
                 NumberDecimalSeparator = ".",
             };
